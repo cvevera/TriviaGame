@@ -46,9 +46,6 @@ body {
     text-align: center;
     width: 50%;
 }
-.header {
-    /* background-color: rgb(128,128,128,0.4); */
-}
 
 IMG.displayed {
     display: block;

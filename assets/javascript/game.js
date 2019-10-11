@@ -83,7 +83,7 @@ var triviaQuestions = [
 ]
 
 
-// Click functions for start, picking an answer, and the new game button.
+// Click for start, picking an answer, and the new game button.
 $("#startBtn").on("click", function () {
     $(".start").hide();
     newGame();
