@@ -1,0 +1,56 @@
+.container {
+margin: 0 auto;
+background-color: rgb(135, 206, 235,0.4);;
+text-align: center;
+color: whitesmoke;
+margin: 20px;
+}
+
+.col-12 {
+    margin: 0 auto;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 36px;
+}
+
+#title {
+    font-size: 48px;
+
+}
+body {
+    background-image: url("assets/images/antique-backdrop-background-129731.jpg");
+    background-color: blue;
+}
+.thisChoice{
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    color: whitesmoke;
+    
+}
+.thisChoice:hover {
+    background-color: rgb(135, 206, 235,0.4);
+    border-style: solid;
+    
+}
+
+#startOverBtn:hover {
+    background-color: rgb(135, 206, 235,0.4);
+    border-style: solid;
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#logo {
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+}
+.header {
+    /* background-color: rgb(128,128,128,0.4); */
+}
+
+IMG.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
