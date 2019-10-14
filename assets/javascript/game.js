@@ -9,8 +9,8 @@ var userSelect;
 var messages = {
     correct: "I'm really proud of you.",
     incorrect: "Opps! Try again!",
-    endTime: "Out of time! Try again!",
-    finished: "Let's see how you did!"
+    outOfTime: "Out of time! Try again!",
+    complete: "Let's see how you did!"
 };
 
 var triviaQuestions = [
@@ -123,7 +123,7 @@ function newQuestion() {
     $("#message").empty();
     $("#correctedAnswer").empty();
     $("#gif").hide();
-    $("#gifCaption").hide();
+    $("#caption").hide();
     answered = true;
     $("#currentQuestion").html("Question " + (currentQuestion + 1) + " of " + triviaQuestions.length);
     $(".question").html(triviaQuestions[currentQuestion].question);
@@ -157,7 +157,7 @@ function newGame() {
     $("#incorrectAnswers").empty();
     $("#unanswered").empty();
     $("#gif").hide();
-    $("#gifCaption").hide();
+    $("#caption").hide();
 
     newQuestion();
 }
@@ -166,8 +166,8 @@ function scoreboard() {
     $('#message').empty();
     $('#correctedAnswer').empty();
     $('#gif').hide();
-    $("#gifCaption").hide();
-    $('#finalMessage').html(messages.finished);
+    $("#caption").hide();
+    $('#finalMessage').html(messages.complete);
     $('#correctAnswers').html("Correct Answers: " + correctAnswer);
     $('#incorrectAnswers').html("Incorrect Answers: " + incorrectAnswer);
     $('#unanswered').html("Unanswered: " + unanswered);
@@ -181,7 +181,7 @@ function answerPage() {
     $(".thisChoice").empty();
     $(".question").empty();
     $("#gif").show();
-    $("#gifCaption").show();
+    $("#caption").show();
 
     var rightAnswerText = triviaQuestions[currentQuestion].answerList[triviaQuestions[currentQuestion].answer];
     var rightAnswerIndex = triviaQuestions[currentQuestion].answer;
@@ -195,8 +195,8 @@ function answerPage() {
     var gifCaption = triviaQuestions[currentQuestion].answerText;
     newCaption = $("<div>");
     newCaption.html(gifCaption);
-    newCaption.addClass("gifCaption");
-    $("#gifCaption").html(newCaption);
+    newCaption.addClass("caption");
+    $("#caption").html(newCaption);
 
 
     if ((userSelect == rightAnswerIndex) && (answered === true)) {
@@ -208,7 +208,7 @@ function answerPage() {
         $('#correctedAnswer').html('The correct answer was: ' + rightAnswerText);
     } else {
         unanswered++;
-        $('#message').html(messages.endTime);
+        $('#message').html(messages.outOfTime);
         $('#correctedAnswer').html('The correct answer was: ' + rightAnswerText);
         answered = true;
     }
