@@ -1,4 +1,4 @@
-var currentQuestion;
+var current;
 var correctAnswer;
 var incorrectAnswer;
 var unanswered;
@@ -12,11 +12,11 @@ var messages = {
     outOfTime: "Out of time! Try again!",
     complete: "Let's see how you did!"
 };
-
+// Created an array of objects to hold questions, answers, correct answer, gifs and captions.
 var triviaQuestions = [
     {
         question: "What is Leslie's favorite food?",
-        answerList: ["Pancakes",
+        answerChoices: ["Pancakes",
             "Calzones",
             "Sushi",
             "Waffles",
@@ -27,7 +27,7 @@ var triviaQuestions = [
     },
     {
         question: "What is the name of Andy and April's dog?",
-        answerList: ["Champion",
+        answerChoices: ["Champion",
             "Gary",
             "MouseRat",
             "Ben",
@@ -38,7 +38,7 @@ var triviaQuestions = [
     },
     {
         question: "Which character also called Larry, Barry, and Terry?",
-        answerList: ["Jerry",
+        answerChoices: ["Jerry",
             "Gary",
             "Perry",
             "Mary",
@@ -49,7 +49,7 @@ var triviaQuestions = [
     },
     {
         question: "Who is Ron's ex-wife?",
-        answerList: ["Leslie",
+        answerChoices: ["Leslie",
             "Ann",
             "Tammy",
             "Leslie's Mom",
@@ -60,7 +60,7 @@ var triviaQuestions = [
     },
     {
         question: "What is the name of Andy's band?",
-        answerList: ["ChumBucket",
+        answerChoices: ["ChumBucket",
             "Scarecrow Boat",
             "MouseRat",
             "Punch Face Champion",
@@ -71,7 +71,7 @@ var triviaQuestions = [
     },
     {
         question: "Who is Jean-Ralphio's sister?",
-        answerList: ["Anne Perkins",
+        answerChoices: ["Anne Perkins",
             "JJ from JJ's Diner",
             "Tom's Canadian Wife",
             "Mona Lisa",
@@ -96,20 +96,21 @@ $("#startOverBtn").on("click", function () {
 
 
 // all the functions! //
-
+// This Function sets the countdown and interval to 1 sec
 function countdown() {
     seconds = 10;
-    $("#timeLeft").html("00:" + seconds);
+    $("#time").html("00:" + seconds);
     answered = true;
     time = setInterval(showCountdown, 1000);
 }
+// This function shows the count down decreasing by 1 with the correct display. If the timer reaches zero is shows the answer page and read the question as unanswered.
 function showCountdown() {
     seconds--;
 
     if (seconds < 10) {
-        $("#timeLeft").html("00:0" + seconds);
+        $("#time").html("00:0" + seconds);
     } else {
-        $("#timeLeft").html("00:" + seconds);
+        $("#time").html("00:" + seconds);
     }
 
     if (seconds < 1) {
@@ -118,23 +119,23 @@ function showCountdown() {
         answerPage();
     }
 }
-
+// This  function clears the answer page and populates the new question and choices to the page. This also includes the on click to grab the user input on their choice.
 function newQuestion() {
     $("#message").empty();
     $("#correctedAnswer").empty();
     $("#gif").hide();
     $("#caption").hide();
     answered = true;
-    $("#currentQuestion").html("Question " + (currentQuestion + 1) + " of " + triviaQuestions.length);
-    $(".question").html(triviaQuestions[currentQuestion].question);
+    $("#current").html("Question " + (current + 1) + " of " + triviaQuestions.length);
+    $(".question").html(triviaQuestions[current].question);
 
     for (var i = 0; i <= 5; i++) {
 
         var choices = $("<div>");
-        choices.text(triviaQuestions[currentQuestion].answerList[i]);
+        choices.text(triviaQuestions[current].answerChoices[i]);
         choices.attr({ "data-index": i });
         choices.addClass("thisChoice");
-        $(".answerList").append(choices);
+        $(".answerChoices").append(choices);
     }
 
     countdown();
@@ -145,9 +146,9 @@ function newQuestion() {
         answerPage();
     });
 }
-
+// This function clears the end game screen/game variables and calls the newQuestion function.
 function newGame() {
-    currentQuestion = 0;
+    current = 0;
     correctAnswer = 0;
     incorrectAnswer = 0;
     unanswered = 0;
@@ -161,8 +162,9 @@ function newGame() {
 
     newQuestion();
 }
-function scoreboard() {
-    $('#timeLeft').empty();
+// This function displays correct and incorrect answers and shows the "play again" button.
+function endScreen() {
+    $('#time').empty();
     $('#message').empty();
     $('#correctedAnswer').empty();
     $('#gif').hide();
@@ -175,30 +177,29 @@ function scoreboard() {
     $('#startOverBtn').show();
     $('#startOverBtn').html("PLAY AGAIN");
 }
-
+// This function displays the gifs and correct answers with a message after a user choice.
 function answerPage() {
-    $("#currentQuestion").empty();
+    $("#current").empty();
     $(".thisChoice").empty();
     $(".question").empty();
     $("#gif").show();
     $("#caption").show();
-
-    var rightAnswerText = triviaQuestions[currentQuestion].answerList[triviaQuestions[currentQuestion].answer];
-    var rightAnswerIndex = triviaQuestions[currentQuestion].answer;
-    var gifImageLink = triviaQuestions[currentQuestion].image;
+// Finding the appropriate answer text and gif and adding to html
+    var rightAnswerText = triviaQuestions[current].answerChoices[triviaQuestions[current].answer];
+    var rightAnswerIndex = triviaQuestions[current].answer;
+    var gifImageLink = triviaQuestions[current].image;
     var newGif = $("<img>");
     newGif.attr("src", gifImageLink);
     newGif.addClass("gifImg");
     $("#gif").html(newGif);
-
-
-    var gifCaption = triviaQuestions[currentQuestion].answerText;
+// Finding the correct gif caption and adding to the html
+    var gifCaption = triviaQuestions[current].answerText;
     newCaption = $("<div>");
     newCaption.html(gifCaption);
     newCaption.addClass("caption");
     $("#caption").html(newCaption);
 
-
+// Checks to see if the correct answer is choisen
     if ((userSelect == rightAnswerIndex) && (answered === true)) {
         correctAnswer++;
         $('#message').html(messages.correct);
@@ -212,11 +213,11 @@ function answerPage() {
         $('#correctedAnswer').html('The correct answer was: ' + rightAnswerText);
         answered = true;
     }
-
-    if (currentQuestion == (triviaQuestions.length - 1)) {
-        setTimeout(scoreboard, 3000);
+// Displays the endScreen if over, or a new question after 3 seconds.
+    if (current == (triviaQuestions.length - 1)) {
+        setTimeout(endScreen, 3000);
     } else {
-        currentQuestion++;
+        current++;
         setTimeout(newQuestion, 3000);
     }
 }
